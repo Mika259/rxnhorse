@@ -4,7 +4,11 @@ buang masa memahami perempuan.
 
 Stop jadi script kiddies
 '''
-
+try:
+	import phonenumbers
+	from phonenumbers import geocoder, carrier, timezone
+except ModuleNotFoundError:
+	exit("Try pasang phonenumbers \"pip install phonenumbers\"")
 try:
 	import requests
 except ModuleNotFoundError:
@@ -67,6 +71,38 @@ def track_ip(ip):
     else:
         print("Gagal mendapatkan data.")
 
+def get_phone_info(phone_number):
+    try:
+        # Parse nombor telefon
+        parsed_number = phonenumbers.parse(phone_number, None)
+        
+        # Periksa jika nombor sah
+        if not phonenumbers.is_valid_number(parsed_number):
+            print("❌ Nombor telefon tidak sah!")
+            return
+        
+        print("\n📞 **Maklumat Nombor Telefon**")
+        print(f"Nombor: {phone_number}")
+        print(f"Format Antarabangsa: {phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.INTERNATIONAL)}")
+        print(f"Format E164: {phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.E164)}")
+        print(f"Format Nasional: {phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.NATIONAL)}")
+
+        # Dapatkan negara
+        country = geocoder.description_for_number(parsed_number, "en")
+        print(f"Negara: {country}")
+
+        # Dapatkan pembekal rangkaian (mungkin tidak tersedia untuk semua nombor)
+        provider = carrier.name_for_number(parsed_number, "en")
+        print(f"Pembekal Rangkaian: {provider if provider else 'Tidak diketahui'}")
+
+        # Dapatkan zon waktu
+        timezones = timezone.time_zones_for_number(parsed_number)
+        print(f"Zon Waktu: {', '.join(timezones)}")
+
+    except phonenumbers.phonenumberutil.NumberParseException:
+        print("❌ Format nombor tidak betul!")
+
+
 # Contoh penggunaan
 banner = '''
 \t  RxnHorse
@@ -82,5 +118,21 @@ input("Enter to continue")
 clear = "clear" if os.name == 'posix' else "cls"
 os.system(clear)
 print(banner)
-ip = input("\tMasukkan IP: ")
-track_ip(ip)
+print("1] Ip Info")
+print("2] Phonenumber Info")
+choose = int(input("(Pilihan )> "))
+
+if choose == 1:
+	os.system(clear)
+	print(banner)
+	ip = input("\tMasukkan IP: ")
+	track_ip(ip)
+elif choose == 2:
+    os.system(clear)
+    print(banner)
+    phone = input("Masukkan nombor telefon (contoh: +60123456789): ")
+    get_phone_info(phone)
+else:
+	exit("error menu!")
+
+
