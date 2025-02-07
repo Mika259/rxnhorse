@@ -24,7 +24,7 @@ def is_reserved_ip(ip):
 
 def track_ip(ip):
     if is_reserved_ip(ip):
-        print("IP ini adalah reserved (localhost atau private network), tidak boleh dikesan.")
+        print("Ip private sape nape nak track? , takleh detect oi.")
         return
     url = f"https://ipwho.is/{ip}"
     response = requests.get(url)
@@ -67,9 +67,9 @@ def track_ip(ip):
             print(f"Link: {data['flag']['img']}")
 
         else:
-            print(f"Error: {data.get('message', 'IP tidak sah')}")
+            print(f"Ip tak sah pulak aduh.")
     else:
-        print("Gagal mendapatkan data.")
+        print("Gagal ambik data.")
 
 def get_phone_info(phone_number):
     try:
@@ -78,7 +78,7 @@ def get_phone_info(phone_number):
         
         # Periksa jika nombor sah
         if not phonenumbers.is_valid_number(parsed_number):
-            print("❌ Nombor telefon tidak sah!")
+            print("❌ Nombor telefon x sah!")
             return
         
         print("\n📞 **Maklumat Nombor Telefon**")
