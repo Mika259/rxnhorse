@@ -100,7 +100,7 @@ def get_phone_info(phone_number):
         print(f"Zon Waktu: {', '.join(timezones)}")
 
     except phonenumbers.phonenumberutil.NumberParseException:
-        print("❌ Format nombor tidak betul!")
+        print("❌ Format nombor tk betul tu!")
 
 
 # Contoh penggunaan
