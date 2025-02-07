@@ -3,7 +3,7 @@ Tool remake penjejak hantu, bahasa melayu
 
 # Install Requirements
 ```bash
-pip install requests
+pip install requests phonenumbers
 ```
 
 # Clone Repo
